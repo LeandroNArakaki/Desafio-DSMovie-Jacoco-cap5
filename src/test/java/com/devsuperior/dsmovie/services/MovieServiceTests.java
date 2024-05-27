@@ -67,8 +67,6 @@ public class MovieServiceTests {
         Mockito.when(repository.existsById(nonExistingMovieId)).thenReturn(Boolean.FALSE);
 
         Mockito.doNothing().when(repository).deleteById(existingMovieId);
-        Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentScoreId);
-
     }
 
     @Test
@@ -128,6 +126,7 @@ public class MovieServiceTests {
 
     @Test
     void deleteShouldThrowDatabaseExceptionWhenDependentId() {
+        Mockito.doThrow(DataIntegrityViolationException.class).when(repository).deleteById(dependentScoreId);
         Assertions.assertThrows(DatabaseException.class, () -> service.delete(dependentScoreId));
     }
 }
